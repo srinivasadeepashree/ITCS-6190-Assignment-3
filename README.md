@@ -10,6 +10,8 @@ First, set up an S3 bucket with the following folder structure to manage the dat
     * **`raw/`**: For incoming raw data files.
     * **`processed/`**: For cleaned and filtered data output by the Lambda function.
     * **`enriched/`**: For storing athena query results.
+      
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 3 35 19 PM" src="https://github.com/user-attachments/assets/c79d125d-138b-4f1e-928e-d128f98c1bb6" />
 
 ---
 
@@ -43,6 +45,8 @@ Create the following IAM roles to grant AWS services the necessary permissions t
     * `AmazonS3FullAccess`
     * `AmazonAthenaFullAccess`
 3.  Name the role (e.g., `EC2-Athena-Dashboard-Role`) and create it.
+   
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 3 35 42 PM" src="https://github.com/user-attachments/assets/89bac615-2ef9-4c63-a83b-37121f016407" />
 
 ---
 
@@ -59,6 +63,8 @@ This function will automatically process files uploaded to the `raw/` S3 folder.
 7.  Click **Create function**.
 8.  In the **Code source** editor, replace the default code with LambdaFunction.py code for processing the raw data.
 
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 3 36 23 PM" src="https://github.com/user-attachments/assets/029fe1a2-79ac-4f32-9d40-f0330019e729" />
+
 ---
 
 ## 4. Configure the S3 Trigger ⚡
@@ -72,9 +78,14 @@ Set up the S3 trigger to invoke your Lambda function automatically.
 5.  **Prefix (Required)**: Enter `raw/`. This ensures the function only triggers for files in this folder.
 6.  **Suffix (Recommended)**: Enter `.csv`.
 7.  Check the acknowledgment box and click **Add**.
+   
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 3 36 01 PM" src="https://github.com/user-attachments/assets/b0d2d8fe-e6e7-44d7-a0d5-d09bb8c94cf6" />
 
 --- 
 **Start Processing of Raw Data**: Now upload the Orders.csv file into the `raw/` folder of the S3 Bucket. This will automatically trigger the Lambda function.
+
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 6 26 43 PM" src="https://github.com/user-attachments/assets/b01d00ab-1514-451d-93c6-7b318ba91767" />
+
 ---
 
 ## 5. Create a Glue Crawler 🕸️
@@ -89,6 +100,9 @@ The crawler will scan your processed data and create a data catalog, making it q
 6.  **Output**: Click **Add database** and create a new database named `orders_db`.
 7.  Finish the setup and run the crawler. It will create a new table in your `orders_db` database.
 
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 4 10 20 PM" src="https://github.com/user-attachments/assets/ddd00562-9844-4324-a684-f12d0a4b5f92" />
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 6 26 07 PM" src="https://github.com/user-attachments/assets/aa4c4159-16a0-48f3-9e69-bd31b73b5161" />
+
 ---
 
 ## 6. Query Data with Amazon Athena 🔍
@@ -97,10 +111,22 @@ Navigate to the **Athena** service. Ensure your data source is set to `AwsDataCa
 
 **Queries to be executed:**
 * **Total Sales by Customer**: Calculate the total amount spent by each customer.
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 11 40 43 PM" src="https://github.com/user-attachments/assets/a69c404e-c76a-4a00-88c3-6fbf8f78666f" />
+
 * **Monthly Order Volume and Revenue**: Aggregate the number of orders and total revenue per month.
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 11 41 56 PM" src="https://github.com/user-attachments/assets/b9e9cba6-5dc1-48d4-ace1-69056ce5d7bb" />
+
 * **Order Status Dashboard**: Summarize orders based on their status (`shipped` vs. `confirmed`).
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 11 42 51 PM" src="https://github.com/user-attachments/assets/763b7790-282b-4af8-b436-dffe4524ebc6" />
+
 * **Average Order Value (AOV) per Customer**: Find the average amount spent per order for each customer.
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 11 43 24 PM" src="https://github.com/user-attachments/assets/f8de0546-7d8e-4236-8946-84e35a402aae" />
+
 * **Top 10 Largest Orders in February 2025**: Retrieve the highest-value orders from a specific month.
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 11 45 09 PM" src="https://github.com/user-attachments/assets/cbd825b2-6629-4c43-ab86-ec5d336f47c5" />
+
+* **Athena query CSV files in the S3 enriched folder**:
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 6 44 15 PM" src="https://github.com/user-attachments/assets/feec3a8d-f4b1-495d-a484-75946ac571ae" />
 
 ---
 
@@ -184,6 +210,10 @@ Once connected via SSH, run the following commands to install the necessary soft
     http://YOUR_PUBLIC_IP_ADDRESS:5000
     ```
     You should now see your Athena Orders Dashboard!
+
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 8 11 34 PM" src="https://github.com/user-attachments/assets/3cb16eb5-2a41-4cd4-b1c7-2cde4979fa14" />
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 8 11 51 PM" src="https://github.com/user-attachments/assets/277babac-c828-4cb4-ad10-9fb9ae3bd88d" />
+<img width="1440" height="900" alt="Screenshot 2025-11-12 at 8 12 01 PM" src="https://github.com/user-attachments/assets/032cb676-4db6-46d4-a189-f4864b676e65" />
 
 ---
 
